@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5 h-100 vh-50 gradient-custom">
+    <div class="row justify-content-start">
+        <div class="col">
+            <h1> Today new books</h1>
+            <br>
+            <h1> Rent your perfect book</h1>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center align-items-center h-100 py-5">
+        <form method="POST" class="d-flex" role="search">
+            <input class="form-control form-control-lg me-2" type="search" placeholder="Search">             
+            <button class="btn btn-outline-primary btn-lg " type="submit">Search</button>
+        </form>
+    </div>
+
+</div>
+{% endblock content %}
