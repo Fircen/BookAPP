@@ -1,10 +1,11 @@
-from email import message
+from django.contrib import messages
 from telnetlib import AUTHENTICATION
 from django.shortcuts import render, redirect
 from .models import Book
-from .forms import BookForm
+from .forms import BookForm, NewUserForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 def home(request):
@@ -34,14 +35,14 @@ def loginPage(request):
         try:
             user = User.objects.get(username=username)
         except:
-            message.error(request, 'User does not exist')
+            messages.error(request, 'User does not exist')
 
         user = authenticate(request, username=username,password=password)
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
-             message.error(request, 'Username or password dont match')
+             messages.error(request, 'Username or password dont match')
 
     context={}
     return render(request, 'base/login.html', context)
@@ -49,3 +50,15 @@ def loginPage(request):
 def logoutPage(request):
     logout(request)
     return redirect('home')
+
+def registerUser(request):
+	if request.method == "POST":
+		form = NewUserForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			login(request, user)
+			messages.success(request, "Registration successful." )
+			return redirect("home")
+		messages.error(request, "Unsuccessful registration. Invalid information.")
+	form = NewUserForm()
+	return render (request=request, template_name="base/register.html", context={"register_form":form})
