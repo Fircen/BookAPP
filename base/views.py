@@ -1,20 +1,35 @@
 from django.contrib import messages
 from telnetlib import AUTHENTICATION
 from django.shortcuts import render, redirect
-from .models import Book
+from .models import Book, rents
 from .forms import BookForm, NewUserForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Q
 
 # Create your views here.
 def home(request):
     return render(request, 'base/home.html')
 
-def book(request):
+def books(request):
     book = Book.objects.all()
     context = {'books' : book}
     return render(request, 'base/book.html', context)
+
+def searchbook(request):
+    if request.method == 'GET':
+        q=request.GET.get('q')
+        book = Book.objects.filter(Q(title__icontains = q) | Q(author__icontains =q))
+        
+    return render(request, 'base/book.html', {'books' : book})
+
+def mybook(request):
+    book = Book.objects.filter(rents__user = request.user.id)
+    rent = rents.objects.filter(user = request.user.id)
+   
+    context = {'books' : book, 'rents' : rent}
+    return render(request, 'base/my_book.html', context)
 
 def addBook(request):
     form = BookForm()

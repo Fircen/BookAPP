@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
@@ -6,6 +7,13 @@ class Book(models.Model):
     publish_year = models.CharField(max_length=30)
     publisher = models.CharField(max_length=100)
     descritpion = models.CharField(max_length=600)
-    free = models.BooleanField()
     def __str__(self):
         return self.title
+
+class rents(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rent_date =  models.DateField(auto_now_add=True)
+    return_date = models.DateField()
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    

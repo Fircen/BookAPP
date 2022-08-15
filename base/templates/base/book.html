@@ -29,12 +29,6 @@
           <td>{{book.publish_year}}</td>
           <td>{{book.publisher}}</td>
           <td>{{book.descritpion}}</td>
-          
-            {% if book.free == 1 %}
-            <td><button type="button" class="btn btn-success" disabled>Rent</button></td>
-            {% else %}
-            <td><button type="button" class="btn btn-warning" disabled>Not Available</button></td>
-            {% endif %}
         </tr>
           {% endfor %}
         

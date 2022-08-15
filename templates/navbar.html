@@ -1,7 +1,7 @@
 
 
 
-{% if request.user.is_authenticated %}
+{% if request.user.is_staff %}
 <header class="p-3 text-bg-dark bg-opacity-50">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -11,8 +11,10 @@
   
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
-          <li><a href="/book" class="nav-link px-2 text-white">Books</a></li>
-          <li><a href="" class="nav-link px-2 text-white">Contact</a></li>
+          <li><a href="/books" class="nav-link px-2 text-white">Books</a></li>
+          <li><a href="/add_book" class="nav-link px-2 text-white">Add Book</a></li>
+          <li><a href="" class="nav-link px-2 text-white">Add Rent</a></li>
+          <li><a href="" class="nav-link px-2 text-white">Add Return</a></li>
         </ul>
 
         <div class="text-end">
@@ -23,7 +25,7 @@
       </div>
     </div>
   </header>
-{% else %}
+{% elif request.user.is_authenticated %}
 <header class="p-3 text-bg-dark bg-opacity-50">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -33,18 +35,41 @@
   
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
-          <li><a href="/book" class="nav-link px-2 text-white">News</a></li>
+          <li><a href="/my_book" class="nav-link px-2 text-white">My_book</a></li>
           <li><a href="" class="nav-link px-2 text-white">Contact</a></li>
         </ul>
         <div class="text-end">
-          <a href="/login">
-          <button type="button" class="btn btn-outline-light me-2" href="/login">Login</button>
-          </a>
-          <a href="/register">
-          <button type="button" class="btn btn-primary">Sign-up</button>
-          </a>
+          <div class="text-end">
+            <span class="navbar-text px-2 text-white">{{request.user |capfirst }}</span>
+            <a href="/logout"><button type="button" class="btn btn-outline-light me-2" href="/logout">Logout</button></a>
+          </div>
         </div>
+        
       </div>
     </div>
   </header>
+{% else %}
+<header class="p-3 text-bg-dark bg-opacity-50">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+      </a>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
+        <li><a href="" class="nav-link px-2 text-white">News</a></li>
+        <li><a href="" class="nav-link px-2 text-white">Contact</a></li>
+      </ul>
+      <div class="text-end">
+        <a href="/login">
+        <button type="button" class="btn btn-outline-light me-2" href="/login">Login</button>
+        </a>
+        <a href="/register">
+        <button type="button" class="btn btn-primary">Sign-up</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
 {% endif %}
