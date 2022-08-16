@@ -7,10 +7,10 @@
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card bg-light text-dark bg-opacity-50" style="border-radius: 1rem;">
           <div class="card-body p-5 text-center">
-            <form class="row justify-content-md-center" method = "POST" action="">
-                {% csrf_token %}
-                {{form}}
-                <button class="btn btn-success btn-lg px-2 " type="submit">Add Book</button>
+            <form class="row justify-content-md-center" method="POST" action="">
+              {% csrf_token %}
+              {{form}}
+              <button class="btn btn-success btn-lg px-2 " type="submit">Add Book</button>
             </form>
           </div>
         </div>
@@ -18,4 +18,4 @@
     </div>
   </div>
 </section>
-  {% endblock content %}  
+{% endblock content %}

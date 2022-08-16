@@ -1,12 +1,13 @@
 from django.contrib import messages
-from telnetlib import AUTHENTICATION
 from django.shortcuts import render, redirect
-from .models import Book, rents
+from .models import Book, Returns, rents
 from .forms import BookForm, NewUserForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
+from dateutil.relativedelta import relativedelta
+from datetime import date 
 
 # Create your views here.
 def home(request):
@@ -18,11 +19,12 @@ def books(request):
     return render(request, 'base/book.html', context)
 
 def searchbook(request):
+    if request.method == 'POST':
+        rentBook(request)
     if request.method == 'GET':
         q=request.GET.get('q')
-        book = Book.objects.filter(Q(title__icontains = q) | Q(author__icontains =q))
-        
-    return render(request, 'base/book.html', {'books' : book})
+        book = Book.objects.filter(Q(title__icontains = q) | Q(author__icontains =q))   
+        return render(request, 'base/book.html', {'books' : book})
 
 def mybook(request):
     book = Book.objects.filter(rents__user = request.user.id)
@@ -77,3 +79,30 @@ def registerUser(request):
 		messages.error(request, "Unsuccessful registration. Invalid information.")
 	form = NewUserForm()
 	return render (request=request, template_name="base/register.html", context={"register_form":form})
+
+def rentBook(request,pk):
+    selectBook =  Book.objects.get(id = pk)
+    if request.method == "POST":
+        currentUser = request.user
+        date_r = date.today() + relativedelta(weeks=+3)
+        if selectBook.free:
+            rents.objects.create(user = currentUser, book = selectBook,return_date = date_r )
+            selectBook.free = 0
+            selectBook.save(update_fields=['free'])
+            return redirect('my_book')
+        else:
+            messages.error(request, "Book is already taken")
+    return render(request, 'base/add_rent.html', {'obj': selectBook})
+
+def returnBook(request,pk):
+    selectBook = Book.objects.get(id = pk)
+    selectRent = rents.objects.get(book = pk) 
+    if request.method == "POST":
+        if selectBook.free == 0:
+            currentUser = request.user
+            Returns.objects.create(user = currentUser, book = selectBook)
+            selectBook.free = 1
+            selectBook.save(update_fields=['free'])
+            selectRent.delete()
+            return redirect('my_book')
+    return render(request, 'base/add_return.html', {'obj': selectBook})

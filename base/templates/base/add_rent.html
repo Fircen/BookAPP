@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+
+{% block content %}
+<section class="vh-50 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-light text-dark bg-opacity-50" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+                        <form class="row justify-content-md-center" method="POST" action="">
+                            {% csrf_token %}
+                            <div class="mb-md-5 mt-md-4 pb-5">
+                                <label class="form-label">Are you sure you want rent "{{obj}}"?</label>
+                                <button class="btn btn-outline-success btn-lg px-5 gy-2" type="submit">Rent</button>
+                            </div>
+                        </form>
+
+                        <div class="mb-md-5 mt-md-4 pb-5">
+                            <label class="form-label">Or you want go back?</label>
+                            <a href='{%url "home" %}'><button
+                                    class="btn btn-outline-danger btn-lg  px-8 gy-5 ">Back</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

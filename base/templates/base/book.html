@@ -7,34 +7,41 @@
   <div class="d-flex align-items-center justify-content-center ">
     <h1>Your books:</h1>
   </div>
-  <form method="POST">
+
   <table class="table table-striped-columns">
+
     <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Title</th>
-          <th scope="col">Author</th>
-          <th scope="col">Publish year</th>
-          <th scope="col">Publisher</th>
-          <th scope="col">Descritpion</th>
-          <th scope="col">Rent</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for book in books %}
-        <tr>
-          <td>{{book.id}}</td>
-          <td>{{book.title}}</td>
-          <td>{{book.author}}</td>
-          <td>{{book.publish_year}}</td>
-          <td>{{book.publisher}}</td>
-          <td>{{book.descritpion}}</td>
-        </tr>
-          {% endfor %}
-        
-      </tbody>
+      <tr>
+
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">Publish year</th>
+        <th scope="col">Publisher</th>
+        <th scope="col">Descritpion</th>
+        <th scope="col">Rent</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+      <tr>
+        {% url 'rentbook' book.id as url %}
+        <td>{{book.title}}</td>
+        <td>{{book.author}}</td>
+        <td>{{book.publish_year}}</td>
+        <td>{{book.publisher}}</td>
+        <td>{{book.descritpion}}</td>
+        {% if book.free %}
+        <td><a href="{{ url }}"><button class="btn btn-outline-success btn-lg px-5" type="submit"
+              name="rent">Rent</button></a></td>
+        {% else %}
+        <td><button class="btn btn-outline-danger btn-lg px-5" type="submit" disabled>Taken</button></td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+
+    </tbody>
   </table>
-</form>
+
 
 
 

@@ -7,28 +7,31 @@
   <div class="d-flex align-items-center justify-content-center ">
     <h1>Your books:</h1>
   </div>
-  <form method="POST">
+
   <table class="table table-striped-columns">
     <thead>
-        <tr>
-          <th scope="col">Title</th>
-          <th scope="col">Rent Date</th>
-          <th scope="col">Return Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for rent in rents %}
-       
-        <tr>
-          <td>{{rent.book.title}}</td>
-          <td>{{rent.rent_date}}</td>
-          <td>{{rent.return_date}}</td>
-        </tr>
-        
-          {% endfor %}
-      </tbody>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Rent Date</th>
+        <th scope="col">Return Date</th>
+        <th scope="col">Return</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for rent in rents %}
+
+      <tr>
+        <td>{{rent.book.title}}</td>
+        <td>{{rent.rent_date}}</td>
+        <td>{{rent.return_date}}</td>
+        <td><a href="{% url 'return-book' rent.book.id %}"><button class="btn btn-outline-success btn-lg "
+              name="return">Return</button></a></td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
   </table>
-</form>
+
 
 
 
