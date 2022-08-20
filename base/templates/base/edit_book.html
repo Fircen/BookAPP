@@ -9,13 +9,12 @@
                     <div class="card-body p-5 text-center">
                         <form class="row justify-content-md-center" method="POST" action="">
                             {% csrf_token %}
-                            <div class="mb-md-5 mt-md-4">
-                                <label class="form-label">Are you sure you want rent "{{obj}}"?</label>
+                            <div class="mb-3">
+                                {{form}}
                             </div>
-                            <button class="btn btn-outline-success btn-lg" type="submit">Rent</button>
+                            <button class="btn btn-success btn-lg" type="submit">Edit</button>
+
                         </form>
-                        <a href='{%url "book-info" obj.id %}'><button
-                                class="btn btn-outline-danger btn-lg">Back</button></a>
                     </div>
                 </div>
             </div>

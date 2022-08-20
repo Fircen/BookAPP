@@ -4,22 +4,27 @@ from .models import Book, Returns, Rents
 from .forms import BookForm, NewUserForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
 from dateutil.relativedelta import relativedelta
 from datetime import date
 from django.contrib.auth.decorators import login_required
-# Create your views here.
+from django.core.paginator import Paginator
 
 
 def home(request):
-    return render(request, 'base/home.html')
+    book = Book.objects.all().order_by('?')[:3]
+    return render(request, 'base/home.html', {'books': book})
 
 
 def books(request):
     book = Book.objects.all()
-    context = {'books': book}
-    return render(request, 'base/book.html', context)
+    paginator = Paginator(book, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    page_obj.adjusted_elided_pages = paginator.get_elided_page_range(
+        page_number)
+
+    return render(request, 'base/book.html', {'page_obj': page_obj})
 
 
 def searchBook(request):
@@ -29,7 +34,8 @@ def searchBook(request):
         q = request.GET.get('q')
         book = Book.objects.filter(
             Q(title__icontains=q) | Q(author__icontains=q))
-        return render(request, 'base/book.html', {'books': book})
+
+        return render(request, 'base/book.html', {'page_obj': book})
 
 
 @login_required(login_url='/login')
@@ -40,14 +46,15 @@ def myBook(request):
 
 @login_required(login_url='/login')
 def addBook(request):
-    form = BookForm()
-    if request.method == 'POST':
-        form = BookForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-
-    return render(request, 'base/add_book.html', {'form': form})
+    if request.user.is_staff:
+        form = BookForm()
+        if request.method == 'POST':
+            form = BookForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('home')
+        return render(request, 'base/add_book.html', {'form': form})
+    return redirect('home')
 
 
 def loginPage(request):
@@ -126,3 +133,23 @@ def returnBook(request, pk):
 def returnHistory(request):
     Return = Returns.objects.filter(user=request.user.id)
     return render(request, 'base/rent_history.html', {'retruns': Return})
+
+
+def bookInfo(request, pk):
+    selectBook = Book.objects.get(id=pk)
+    return render(request, 'base/book_info.html', {'obj': selectBook})
+
+
+@login_required(login_url='/login')
+def editBook(request, pk):
+    if request.user.is_staff:
+        book = Book.objects.get(id=pk)
+        form = BookForm(instance=book)
+        if request.method == 'POST':
+            form = BookForm(request.POST, instance=book)
+            if form.is_valid():
+                form.save()
+                return redirect('book-info', pk)
+
+        return render(request, 'base/edit_book.html', {'form': form})
+    return redirect('home')

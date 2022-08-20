@@ -12,7 +12,6 @@
 
     <thead>
       <tr>
-
         <th scope="col">Title</th>
         <th scope="col">Author</th>
         <th scope="col">Publish year</th>
@@ -22,26 +21,53 @@
       </tr>
     </thead>
     <tbody>
-      {% for book in books %}
+      {% for book in page_obj %}
       <tr>
-        {% url 'rent-book' book.id as url %}
+
         <td>{{book.title}}</td>
         <td>{{book.author}}</td>
         <td>{{book.publish_year}}</td>
         <td>{{book.publisher}}</td>
         <td>{{book.descritpion}}</td>
-        {% if book.free %}
-        <td><a href="{{ url }}"><button class="btn btn-outline-success btn-lg px-5" type="submit"
-              name="rent">Rent</button></a></td>
-        {% else %}
-        <td><button class="btn btn-outline-danger btn-lg px-5" type="submit" disabled>Taken</button></td>
-        {% endif %}
+        <td><a href="{% url 'book-info' book.id %}"><button class="btn btn-outline-success btn-lg px-5" type="submit"
+              name="rent">Info</button></a></td>
+
       </tr>
       {% endfor %}
 
     </tbody>
   </table>
 
+  <nav aria-label="navigation">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link text-bg-dark bg-opacity-50"
+          href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+      {% endif %}
+
+      {% for page_number in page_obj.adjusted_elided_pages %}
+      {% if page_number == page_obj.paginator.ELLIPSIS %}
+      <li class="page-item  text-bg-dark bg-opacity-50" aria-current="page">
+        {{page_number}}
+      </li>
+      {% else %}
+      <li class="page-item" aria-current="page">
+        <a href="?page={{page_number}}"
+          class="page-link {% if page_number == page_obj.number %} text-bg-dark bg-opacity-75  {% else %}  text-bg-dark bg-opacity-50  {% endif %}  ">
+          {{page_number}}
+        </a>
+      </li>
+      {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link text-bg-dark bg-opacity-50"
+          href="?page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+
+      {% endif %}
+    </ul>
+  </nav>
 
 
 
