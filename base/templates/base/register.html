@@ -17,7 +17,8 @@
                 {{ register_form|crispy }}
                 <button class="btn btn-outline-primary btn-lg px-5" type="submit">Sign Up</button>
               </div>
-              <p class="mb-0">You have account already? <a href="/login" class="text-dark-50 fw-bold">Log in</a> </p>
+              <p class="mb-0">You have account already? <a href="{% url 'login' %}" class="text-dark-50 fw-bold">Log
+                  in</a> </p>
 
           </div>
           </form>

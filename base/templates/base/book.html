@@ -24,7 +24,7 @@
     <tbody>
       {% for book in books %}
       <tr>
-        {% url 'rentbook' book.id as url %}
+        {% url 'rent-book' book.id as url %}
         <td>{{book.title}}</td>
         <td>{{book.author}}</td>
         <td>{{book.publish_year}}</td>

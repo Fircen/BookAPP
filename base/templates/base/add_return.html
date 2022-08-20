@@ -8,19 +8,13 @@
                 <div class="card bg-light text-dark bg-opacity-50" style="border-radius: 1rem;">
                     <div class="card-body p-5 text-center">
                         <form class="row justify-content-md-center" method="POST" action="">
-                            <div class="mb-md-5 mt-md-4 pb-5">
+                            <div class="mb-md-5 mt-md-4 ">
                                 <label class="form-label">Are you sure you want return "{{obj}}"?</label>
                                 {% csrf_token %}
-                                <button class="btn btn-outline-primary btn-lg px-5 gy-2" type="submit">Return</button>
                             </div>
+                            <button class="btn btn-outline-primary btn-lg p-2 " type="submit">Return</button>
                         </form>
-
-                        <div class="mb-md-5 mt-md-4 pb-5">
-                            <label class="form-label">Or you want go back?</label>
-                            <a href='{%url "home" %}'><button
-                                    class="btn btn-outline-danger btn-lg  px-8 gy-5 ">Back</button>
-                        </div>
-
+                        <a href='{%url "home" %}'><button class="btn btn-outline-danger btn-lg   ">Back</button>
                     </div>
                 </div>
             </div>

@@ -9,8 +9,11 @@
           <div class="card-body p-5 text-center">
             <form class="row justify-content-md-center" method="POST" action="">
               {% csrf_token %}
-              {{form}}
-              <button class="btn btn-success btn-lg px-2 " type="submit">Add Book</button>
+              <div class="mb-3">
+                {{form}}
+              </div>
+              <button class="btn btn-success btn-lg" type="submit">Add Book</button>
+
             </form>
           </div>
         </div>

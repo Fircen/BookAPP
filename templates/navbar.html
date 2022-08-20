@@ -12,7 +12,7 @@
         <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
         <li><a href="/books" class="nav-link px-2 text-white">Books</a></li>
         <li><a href="/add_book" class="nav-link px-2 text-white">Add Book</a></li>
-
+        <li><a href="/add_book" class="nav-link px-2 text-white">Add Book</a></li>
       </ul>
 
       <div class="text-end">
@@ -35,7 +35,7 @@
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
-        <li><a href="/my_book" class="nav-link px-2 text-white">My book</a></li>
+        <li><a href="{% url 'my-book' %}" class="nav-link px-2 text-white">My book</a></li>
         <li><a href="{% url 'return-history' %}" class="nav-link px-2 text-white">Rent history</a></li>
       </ul>
       <div class="text-end">

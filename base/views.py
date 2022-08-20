@@ -22,7 +22,7 @@ def books(request):
     return render(request, 'base/book.html', context)
 
 
-def searchbook(request):
+def searchBook(request):
     if request.method == 'POST':
         rentBook(request)
     if request.method == 'GET':
@@ -32,12 +32,9 @@ def searchbook(request):
         return render(request, 'base/book.html', {'books': book})
 
 
-def mybook(request):
-    book = Book.objects.filter(rents__user=request.user.id)
+def myBook(request):
     rent = rents.objects.filter(user=request.user.id)
-
-    context = {'books': book, 'rents': rent}
-    return render(request, 'base/my_book.html', context)
+    return render(request, 'base/my_book.html', {'rents': rent})
 
 
 def addBook(request):
@@ -48,8 +45,7 @@ def addBook(request):
             form.save()
             return redirect('home')
 
-    context = {'form': form}
-    return render(request, 'base/add_book.html', context)
+    return render(request, 'base/add_book.html', {'form': form})
 
 
 def loginPage(request):
@@ -69,8 +65,7 @@ def loginPage(request):
         else:
             messages.error(request, 'Username or password dont match')
 
-    context = {}
-    return render(request, 'base/login.html', context)
+    return render(request, 'base/login.html')
 
 
 def logoutPage(request):
@@ -89,7 +84,7 @@ def registerUser(request):
         messages.error(
             request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
-    return render(request=request, template_name="base/register.html", context={"register_form": form})
+    return render(request=request, template_name="base/register.html")
 
 
 def rentBook(request, pk):
@@ -102,7 +97,7 @@ def rentBook(request, pk):
                 user=currentUser, book=selectBook, return_date=date_r)
             selectBook.free = 0
             selectBook.save(update_fields=['free'])
-            return redirect('my_book')
+            return redirect('my-book')
         else:
             messages.error(request, "Book is already taken")
     return render(request, 'base/add_rent.html', {'obj': selectBook})
@@ -118,7 +113,7 @@ def returnBook(request, pk):
             selectBook.free = 1
             selectBook.save(update_fields=['free'])
             selectRent.delete()
-            return redirect('my_book')
+            return redirect('my-book')
     return render(request, 'base/add_return.html', {'obj': selectBook})
 
 
