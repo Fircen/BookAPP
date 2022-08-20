@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Book, rents
+from .models import Book, Rents
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User

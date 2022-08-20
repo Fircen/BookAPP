@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from .models import Book, Returns, rents
+from .models import Book, Returns, Rents
 from .forms import BookForm, NewUserForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
 from dateutil.relativedelta import relativedelta
 from datetime import date
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -32,11 +32,13 @@ def searchBook(request):
         return render(request, 'base/book.html', {'books': book})
 
 
+@login_required(login_url='/login')
 def myBook(request):
-    rent = rents.objects.filter(user=request.user.id)
+    rent = Rents.objects.filter(user=request.user.id)
     return render(request, 'base/my_book.html', {'rents': rent})
 
 
+@login_required(login_url='/login')
 def addBook(request):
     form = BookForm()
     if request.method == 'POST':
@@ -68,6 +70,7 @@ def loginPage(request):
     return render(request, 'base/login.html')
 
 
+@login_required(login_url='/login')
 def logoutPage(request):
     logout(request)
     return redirect('home')
@@ -87,13 +90,14 @@ def registerUser(request):
     return render(request=request, template_name="base/register.html")
 
 
+@login_required(login_url='/login')
 def rentBook(request, pk):
     selectBook = Book.objects.get(id=pk)
     if request.method == "POST":
         currentUser = request.user
         date_r = date.today() + relativedelta(weeks=+3)
         if selectBook.free:
-            rents.objects.create(
+            Rents.objects.create(
                 user=currentUser, book=selectBook, return_date=date_r)
             selectBook.free = 0
             selectBook.save(update_fields=['free'])
@@ -103,9 +107,10 @@ def rentBook(request, pk):
     return render(request, 'base/add_rent.html', {'obj': selectBook})
 
 
+@login_required(login_url='/login')
 def returnBook(request, pk):
     selectBook = Book.objects.get(id=pk)
-    selectRent = rents.objects.get(book=pk)
+    selectRent = Rents.objects.get(book=pk)
     if request.method == "POST":
         if selectBook.free == 0:
             currentUser = request.user
@@ -117,6 +122,7 @@ def returnBook(request, pk):
     return render(request, 'base/add_return.html', {'obj': selectBook})
 
 
+@login_required(login_url='/login')
 def returnHistory(request):
     Return = Returns.objects.filter(user=request.user.id)
     return render(request, 'base/rent_history.html', {'retruns': Return})

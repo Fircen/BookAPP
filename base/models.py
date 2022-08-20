@@ -14,7 +14,7 @@ class Book(models.Model):
         return self.title
 
 
-class rents(models.Model):
+class Rents(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rent_date = models.DateField(auto_now_add=True)
     return_date = models.DateField()
