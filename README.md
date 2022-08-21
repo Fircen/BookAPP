@@ -20,6 +20,6 @@ Project is created with:
 	
 ## Setup
 To run you need python installed. All project dependencies are listed in requirements.txt. To install all deps run:
-$ pip install -r requirements.txt
+ `pip install -r requirements.txt`
 To start server run:
-$ python manage.py runserver
+`python manage.py runserver`
