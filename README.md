@@ -19,7 +19,7 @@ Project is created with:
 * SQLite database
 	
 ## Setup
-To run you need python installed. All project dependencies are listed in requirements.txt. To install all deps run:
- `pip install -r requirements.txt`
-To start server run:
+To run you need python installed. All project dependencies are listed in requirements.txt. To install all deps run:\
+ `pip install -r requirements.txt`\
+To start server run:\
 `python manage.py runserver`
