@@ -5,7 +5,7 @@
 * [Setup](#setup)
 
 ## General info
-This project is simple django app witch allow to maintenece library. 
+This project is simple django app which allow to maintenece library. 
 * User creation with authentication and autorization.
 * Searching by title or author fraze.
 * Adding and editing only for staff.
