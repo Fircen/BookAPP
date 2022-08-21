@@ -21,26 +21,15 @@
 
     <h1 class="text-center"> You should check this book </h1>
 
+    <div class="text-center ">
+        {% for book in books %}
 
-    {% for book in books %}
-    <div class="card mb-3 bg-light text-dark bg-opacity-50 h-100 " style="max-width: 760px;">
-        <div class="row">
-            <div class="col-md-4">
-                <img src="https://picsum.photos/200/300" class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">{{book.title}}</h5>
-                    <p class="card-text text-start"><small class="text-muted">{{book.author}}</small></p>
-                    <p class="card-text">{{book.descritpion}}</p>
-                    <a href="{% url 'book-info' book.id %}" class="btn btn-primary">More
-                        information</a>
-                </div>
-            </div>
-        </div>
+
+        <a href="{% url 'book-info' book.id%}"> <img src="{%if book.cover%} {{book.cover.url}} {% else %} {% endif %}"
+                class="img rounded-start" width="200" height="300"></a>
+
+        {% endfor %}
     </div>
-    {% endfor %}
-
 
 </div>
 

@@ -12,7 +12,7 @@ from django.core.paginator import Paginator
 
 
 def home(request):
-    book = Book.objects.all().order_by('?')[:3]
+    book = Book.objects.all().order_by('?')[:5]
     return render(request, 'base/home.html', {'books': book})
 
 
@@ -28,8 +28,6 @@ def books(request):
 
 
 def searchBook(request):
-    if request.method == 'POST':
-        rentBook(request)
     if request.method == 'GET':
         q = request.GET.get('q')
         book = Book.objects.filter(
@@ -49,7 +47,7 @@ def addBook(request):
     if request.user.is_staff:
         form = BookForm()
         if request.method == 'POST':
-            form = BookForm(request.POST)
+            form = BookForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
                 return redirect('home')
@@ -94,7 +92,7 @@ def registerUser(request):
         messages.error(
             request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
-    return render(request=request, template_name="base/register.html")
+    return render(request, "base/register.html",  {'register_form': form})
 
 
 @login_required(login_url='/login')
@@ -146,10 +144,16 @@ def editBook(request, pk):
         book = Book.objects.get(id=pk)
         form = BookForm(instance=book)
         if request.method == 'POST':
-            form = BookForm(request.POST, instance=book)
+            form = BookForm(request.POST, request.FILES, instance=book)
             if form.is_valid():
                 form.save()
                 return redirect('book-info', pk)
 
         return render(request, 'base/edit_book.html', {'form': form})
     return redirect('home')
+
+
+@login_required(login_url='/login')
+def rented(request):
+    Rent = Rents.objects.all()
+    return render(request, 'base/rented.html', {'rents': Rent})

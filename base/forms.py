@@ -20,7 +20,7 @@ class BookForm(ModelForm):
     class Meta:
         model = Book
         fields = ('title', 'author', 'publish_year',
-                  'publisher', 'descritpion')
+                  'publisher', 'descritpion', 'cover')
 
 
 class NewUserForm(UserCreationForm):

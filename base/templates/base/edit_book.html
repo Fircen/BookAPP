@@ -7,7 +7,7 @@
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card bg-light text-dark bg-opacity-50" style="border-radius: 1rem;">
                     <div class="card-body p-5 text-center">
-                        <form class="row justify-content-md-center" method="POST" action="">
+                        <form class="row justify-content-md-center" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="mb-3">
                                 {{form}}

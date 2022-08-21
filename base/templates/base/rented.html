@@ -1,0 +1,38 @@
+{%extends 'base.html'%}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="d-flex align-items-center justify-content-center ">
+        <h1>Already rented:</h1>
+    </div>
+
+    <table class="table table-striped-columns">
+        <thead>
+            <tr>
+                <th scope="col">User</th>
+                <th scope="col">Title</th>
+                <th scope="col">Rent Date</th>
+                <th scope="col">Return Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rent in rents %}
+
+            <tr>
+                <td>{{rent.user.username}}</td>
+                <td>{{rent.book.title}}</td>
+                <td>{{rent.rent_date}}</td>
+                <td>{{rent.return_date}}</td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+</div>
+{% endblock content %}

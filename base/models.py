@@ -9,6 +9,7 @@ class Book(models.Model):
     publisher = models.CharField(max_length=100)
     descritpion = models.CharField(max_length=600)
     free = models.BooleanField(null=True, default='True')
+    cover = models.ImageField(blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -19,9 +20,6 @@ class Rents(models.Model):
     rent_date = models.DateField(auto_now_add=True)
     return_date = models.DateField()
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '%s %s'(self.user.username, self.book.title)
 
 
 class Returns(models.Model):

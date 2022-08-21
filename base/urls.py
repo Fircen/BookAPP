@@ -15,5 +15,6 @@ urlpatterns = [
     path('rent_history/', views.returnHistory, name='return-history'),
     path('book_info/<int:pk>', views.bookInfo, name='book-info'),
     path('edit_book/<int:pk>', views.editBook, name="edit-book"),
+    path('rented', views.rented, name='rented')
 
 ]
