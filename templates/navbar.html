@@ -4,9 +4,11 @@
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
-        <li><a href="/books/?page=1" class="nav-link px-2 text-white">Books</a></li>
-        <li><a href="/rented" class="nav-link px-2 text-white">Already Rented</a></li>
-        <li><a href="/add_book" class="nav-link px-2 text-white">Add Book</a></li>
+        <li><a href="/book/all/1" class="nav-link px-2 text-white">Books</a></li>
+        <li><a href="{% url 'my-book' %}" class="nav-link px-2 text-white">My books</a></li>
+        <li><a href="{%url 'rented' %}" class="nav-link px-2 text-white">Already Rented</a></li>
+        <li><a href="{%url 'add-Book' %}" class="nav-link px-2 text-white">Add Book</a></li>
+
       </ul>
 
       <div class="text-end">
