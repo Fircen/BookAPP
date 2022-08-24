@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from .models import Book, Returns, Rents
+from .models import Book, Returns, Rents, Raiting
 from .forms import BookForm, NewUserForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
@@ -135,7 +135,12 @@ def returnHistory(request):
 
 def bookInfo(request, pk):
     selectBook = Book.objects.get(id=pk)
-    return render(request, 'base/book_info.html', {'obj': selectBook})
+    try:
+        selectComment = Raiting.objects.get(book_id=pk)
+    except selectComment.DoseNotExist:
+        selectComment = None
+
+    return render(request, 'base/book_info.html', {'obj': selectBook, 'com': selectComment})
 
 
 @login_required(login_url='/login')
