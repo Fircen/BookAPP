@@ -35,13 +35,15 @@
             </div>
         </div>
         <div class="text-start">
-            <h1>Comments:</h1>
+            <h1>Raiting and Review:</h1>
         </div>
-        <div class="card bg-light text-dark bg-opacity-50 h-100" style="border-radius: 1rem;">
-            <div class="row g-0">
-                
-            </div>
-        </div>
+
+            
+        {% for rate in rates%}
+        {% include 'books/comment.html' %}
+        {% endfor %}
+
+
     </div>
 </section>
 {% endblock content %}

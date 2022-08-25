@@ -16,11 +16,13 @@ class Book(models.Model):
         return self.title
 
 
+
 class Raiting(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     comment = models.TextField(blank=True, null=True, max_length=300)
-    rate = models.IntegerField(default=1, validators=[
+    rate = models.IntegerField(null=True, blank=True, validators=[
         MinValueValidator(1), MaxValueValidator(5)])
 
     def __str__(self):

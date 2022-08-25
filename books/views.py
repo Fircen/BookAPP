@@ -10,7 +10,7 @@ from django.db.models import Q
 
 def books(request, page):
     book = Book.objects.all()
-    paginator = Paginator(book, 5)
+    paginator = Paginator(book, 1)
     page_obj = paginator.get_page(page)
     page_obj.adjusted_elided_pages = paginator.get_elided_page_range(
         page)
@@ -46,7 +46,8 @@ def addBook(request):
 
 def bookInfo(request, pk):
     selectBook = Book.objects.get(id=pk)
-    return render(request, 'books/info.html', {'obj': selectBook})
+    rate = Raiting.objects.filter(book_id=pk)
+    return render(request, 'books/info.html', {'obj': selectBook, 'rates': rate})
 
 
 @login_required(login_url='/login')
