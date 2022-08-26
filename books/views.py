@@ -4,7 +4,7 @@ from .models import Book, Raiting
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from .forms import BookForm
+from .forms import BookForm, RateForm
 from django.db.models import Q
 
 
@@ -47,7 +47,20 @@ def addBook(request):
 def bookInfo(request, pk):
     selectBook = Book.objects.get(id=pk)
     rate = Raiting.objects.filter(book_id=pk)
-    return render(request, 'books/info.html', {'obj': selectBook, 'rates': rate})
+    if request.user.is_authenticated:
+        form = RateForm()
+        if request.method == 'POST':
+            form = RateForm(request.POST)
+            if form.is_valid():
+                f = form.save(commit=False)
+                f.user = request.user
+                f.book = selectBook
+                f.save()
+                return redirect('book-info', pk)
+    else:
+        redirect('login')
+
+    return render(request, 'books/info.html', {'obj': selectBook, 'rates': rate, 'form': form})
 
 
 @login_required(login_url='/login')
@@ -63,3 +76,16 @@ def editBook(request, pk):
 
         return render(request, 'books/edit.html', {'form': form})
     return redirect('home')
+
+
+@login_required(login_url='/login')
+def editRate(request, pk):
+    rate = Raiting.objects.get(id=pk)
+    form = RateForm(instance=rate)
+    if request.method == 'POST':
+        form = RateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book-info', rate.book.id)
+
+    return render(request, 'books/info.html', {'form': form})

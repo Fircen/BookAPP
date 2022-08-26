@@ -13,6 +13,7 @@
                             <i class="fa {% if rate.rate >= 3 %} fa-star {% else %} fa-star-o {% endif %}u-color"></i>
                             <i class="fa {% if rate.rate >= 4 %} fa-star {% else %} fa-star-o {% endif %}u-color"></i>
                             <i class="fa {% if rate.rate >= 5 %} fa-star {% else %} fa-star-o {% endif %}u-color"></i>
+                            {% if request.user == rate.user%}<a href="">EDIT</a>{% endif %}
                         </div>
                     </div>
                 </div>
