@@ -28,7 +28,7 @@ def searchBook(request, page):
         page_obj.adjusted_elided_pages = paginator.get_elided_page_range(
             page)
 
-        return render(request, 'books/all.html', {'page_obj': page_obj})
+        return render(request, 'books/all.html', {'page_obj': page_obj, 'query': q})
 
 
 @login_required(login_url='/login')
@@ -47,8 +47,8 @@ def addBook(request):
 def bookInfo(request, pk):
     selectBook = Book.objects.get(id=pk)
     rate = Raiting.objects.filter(book_id=pk)
+    form = RateForm()
     if request.user.is_authenticated:
-        form = RateForm()
         if request.method == 'POST':
             form = RateForm(request.POST)
             if form.is_valid():
@@ -76,16 +76,3 @@ def editBook(request, pk):
 
         return render(request, 'books/edit.html', {'form': form})
     return redirect('home')
-
-
-@login_required(login_url='/login')
-def editRate(request, pk):
-    rate = Raiting.objects.get(id=pk)
-    form = RateForm(instance=rate)
-    if request.method == 'POST':
-        form = RateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('book-info', rate.book.id)
-
-    return render(request, 'books/info.html', {'form': form})

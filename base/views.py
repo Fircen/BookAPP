@@ -1,3 +1,4 @@
+from itertools import count
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .forms import NewUserForm
@@ -7,10 +8,12 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from books.models import Book
 from rent.models import Rents
+from django.db.models import Count
 
 
 def home(request):
-    book = Book.objects.all().order_by('?')[:5]
+    book = Book.objects.annotate(num_rent=Count(
+        'returns')).order_by('-num_rent')[:5]
     return render(request, 'base/home.html', {'books': book})
 
 
